@@ -1,0 +1,15 @@
+version: "3"
+services:
+  backend:
+  build: ./backend
+  ports:
+    - "8000:8000"
+  volumes:
+    - ./backend/Movies_Game_Table_2.db:/app/Movies_Game_Table_2.db
+
+frontend
+  build: ./frontend
+  ports:
+    - "3000:3000"
+  depends_on:
+    - backend
