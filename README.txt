@@ -26,3 +26,4 @@ This app showcases full-stack capabilities using **React + FastAPI + SQLite**, f
 git clone https://github.com/Couchtr26/movie-builder.git
 cd movie-builder
 docker-compose up --build
+© 2025 Thomas Couch — Grey Knight Software
