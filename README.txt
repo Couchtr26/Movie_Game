@@ -26,8 +26,8 @@ Clone the repository:
 bash
 Copy
 Edit
-git clone https://github.com/Couchtr26/movie-builder.git
-cd movie-builder/backend
+git clone https://github.com/Couchtr26/movie_game.git
+cd movie_game/backend
 Create and activate a virtual environment (recommended):
 
 bash
