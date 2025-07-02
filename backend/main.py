@@ -1,102 +1,86 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import ReactDOM from "react-dom/client";
-import "./index.css";
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import List
+import sqlite3
 
-function CreateMovieGUI() {
-  const [title, setTitle] = useState("");
-  const [genre, setGenre] = useState("");
-  const [scriptId, setScriptId] = useState("");
-  const [producerId, setProducerId] = useState("");
-  const [actorIds, setActorIds] = useState([]);
-  const [effectIds, setEffectIds] = useState([]);
-  const [scandalIds, setScandalIds] = useState([]);
-  const [response, setResponse] = useState(null);
+app = FastAPI()
 
-  const [scripts, setScripts] = useState([]);
-  const [producers, setProducers] = useState([]);
-  const [actors, setActors] = useState([]);
-  const [effects, setEffects] = useState([]);
-  const [scandals, setScandals] = useState([]);
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-useEffect(() => {
-  axios.get("/scripts").then(res => setScripts(res.data));
-  axios.get("/producers").then(res => setProducers(res.data));
-  axios.get("/actors").then(res => setActors(res.data));
-  axios.get("/effects").then(res => setEffects(res.data));
-  axios.get("/scandals").then(res => setScandals(res.data));
-}, []);
+DATABASE = "movie_game.db"
 
-const handleSubmit = async () => {
-  try {
-    const payload = {
-      title,
-      genre,
-      script_id: parseInt(scriptId),
-      producer_id: parseInt(producerId),
-      actor_ids: actorIds.map(Number),
-      effect_ids: effectIds.map(Number),
-      scandal_ids: scandalIds.map(Number),
-    };
-    const res = await axios.post("/movies/create/", payload);
-    setResponse(res.data);
-  } catch (err) {
-    setResponse({ error: err.response?.data?.detail || "Error"});
-  }
-};
+class MovieCreate(BaseModel):
+    title: str
+    genre: str
+    script_id: int
+    producer_id: int
+    actor_ids: List[int]
+    effect_ids: List[int]
+    scandal_ids: List[int]
 
- return (
-   <div className="p-4 max-w-3xl mx-auto font-sans">
-     <h2 className="text=2xl font-bold mb-4">Create a Movie</h2>
+def query_db(query, args=(), one=False):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute(query, args)
+    result = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return (result[0] if result else None) if one else result
 
-     <input placeholder="Title" className="border p-2 w-full mb-2" value={title} onChange={e => setTitle(e.target.value)} />
-     <input placeholder="Genre" className="border p-2 w-full mb-2" value={genre} onChange={e => setGenre(e.target.value)} />
+@app.get("/scripts")
+def get_scripts():
+    rows = query_db("SELECT script_id, title FROM scripts")
+    return [{"script_id": r[0], "title": r[1]} for r in rows]
 
-     <select className="border p-2 w-full mb-2" value={scriptId} onChange={e => setScriptId(e.target.value)}>
-       <option value="">Select Script</option>
-       {scripts.map(script => (
-         <option key={script.script_id} value={script.script_id}>{script.title}</option>
-       ))}
-     </select>
+@app.get("/producers")
+def get_producers():
+    rows = query_db("SELECT producer_id, name FROM producers")
+    return [{"producer_id": r[0], "name": r[1]} for r in rows]
 
-     <select className="border p-2 w-full mb-2" value={producerId} onChange={e => setProducerId(e.target.value)}>
-       <option value="">Select Producer</option>
-       {producers.map(p => (
-         <option key={p.producer_id} value={p.producer_id}>{p.name}</option>
-       ))}
-     </select>
+@app.get("/actors")
+def get_actors():
+    rows = query_db("SELECT actor_id, name FROM actors")
+    return [{"actor_id": r[0], "name": r[1]} for r in rows]
 
-     <label className="block font-bold mt-2">Select Actors</label>
-     <select multiple className="border p-2 w-full mb-2" value={actorIds} onChange={e => setActorIds([...e.target.selectedOptions].map(o => o.value))}>
-       {actors.map(a => (
-         <option key={a.actor_id} value={a.actor_id}>{a.anme}</option>
-       ))}
-     </select>
+@app.get("/effects")
+def get_effects():
+    rows = query_db("SELECT effect_id, type FROM effects")
+    return [{"effect_id": r[0], "type": r[1]} for r in rows]
 
-     <label className="block font-bold mt-2">Select Effects</label>
-     <select multiple className="border p-2 w-full mb-2" value={effectIds} onChange={e => setEffectIds([...e.target.selectedOptions.map(o => o.value))}>
-       {effects.map(eff => (
-         <option key={eff.effect_id} value={eff.effect_id}>{eff.type}</option>
-       ))}
-     </select>
+@app.get("/scandals")
+def get_scandals():
+    rows = query_db("SELECT scandal_id, description FROM scandals")
+    return [{"scandal_id": r[0], "description": r[1]} for r in rows]
 
-     <label className="block font-bold mt-2">Select Scandals</label>
-     <select multiple className="border p-2 w-full mb-2" value={scandalIds} onChange={e => setScandalIds([...e.target.selectedOptions].map(o => o.value))}>
-       {scandals.map(s => (
-         <option key={s.scandal_id} value={s.scandal_id}>{s.description}</option>
-       ))}
-     </select>
+@app.post("/movies/create/")
+def create_movie(movie: MovieCreate):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
 
-     <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleSubmit}>Create Movie</button>
+    try:
+        cursor.execute(
+            "INSERT INTO movies (title, genre, script_id, producer_id) VALUES (?, ?, ?, ?)",
+            (movie.title, movie.genre, movie.script_id, movie.producer_id)
+        )
+        movie_id = cursor.lastrowid
 
-     {response && (
-       <div className="mt-4 p-2 border rounded bg-gray-100">
-         <pre>{JSON.stringify(response, null, 2)}</pre>
-       </div>
-     )}
-   </div>
- );
-}  
+        for aid in movie.actor_ids:
+            cursor.execute("INSERT INTO movie_actors (movie_id, actor_id) VALUES (?, ?)", (movie_id, aid))
+        for eid in movie.effect_ids:
+            cursor.execute("INSERT INTO movie_effects (movie_id, effect_id) VALUES (?, ?)", (movie_id, eid))
+        for sid in movie.scandal_ids:
+            cursor.execute("INSERT INTO movie_scandals (movie_id, scandal_id) VALUES (?, ?)", (movie_id, sid))
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<CreateMovieGui />);  
+        conn.commit()
+        return {"message": "Movie created", "movie_id": movie_id}
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
