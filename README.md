@@ -17,6 +17,7 @@ This video demonstrates core functionality including:
 
 - **SQLite database** with multiple related tables (`Movies`, `Actors`, `Producers`, `Scandals`, etc.)
 - **Random movie generator** that creates and populates full records
+- ![Creating a random movie via API](./Screenshot_2025-07-03_180650.png)
 - **Scandals and casting** assigned to movies randomly
 - **FastAPI** endpoints for:
   - Creating a new random movie
@@ -73,7 +74,7 @@ This project was built solo as part of a backend showcase. It demonstrates hands
 
 Below is a snapshot of the FastAPI server running successfully, handling real HTTP requests:
 
-![Movie_game](./Screenshot_2025-07-03_180734.png)
+![API running](./Screenshot_2025-07-03_180734.png)
 
 This confirms that the API was operational, connected to the SQLite database, and handled multiple endpoints during live testing.
 
