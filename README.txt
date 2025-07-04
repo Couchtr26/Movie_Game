@@ -5,7 +5,7 @@ This project is a simulation engine and backend API for managing a fictional mov
 ---
 
 ## 📽️ Demo Video
-[Watch the demo video here](#) *(Replace with your actual link)*  
+https://youtu.be/nf5_B6xl-Bc 
 This video demonstrates core functionality including:
 - Random movie generation
 - Actor and producer queries
