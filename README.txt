@@ -73,7 +73,7 @@ This project was built solo as part of a backend showcase. It demonstrates hands
 
 Below is a snapshot of the FastAPI server running successfully, handling real HTTP requests:
 
-![Movie game](./Screenshot_2025-07-03_180734.png)
+![Movie_game](./Screenshot%202025-07-03%20180734.png)
 
 This confirms that the API was operational, connected to the SQLite database, and handled multiple endpoints during live testing.
 
