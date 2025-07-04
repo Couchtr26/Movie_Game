@@ -69,6 +69,13 @@ This video demonstrates core functionality including:
 
 This project was built solo as part of a backend showcase. It demonstrates hands-on experience with API development, relational data modeling, and procedural content generation.
 
+## 🖥️ Server Running Example
+
+Below is a snapshot of the FastAPI server running successfully, handling real HTTP requests:
+
+![Server Log Screenshot](./Screenshot_2025-07-03_180734.png)
+
+This confirms that the API was operational, connected to the SQLite database, and handled multiple endpoints during live testing.
 
 📄 License
 MIT License — free to use, modify, and distribute.
