@@ -1,98 +1,74 @@
-Movie Game – Full Stack Demo App Backend
-Build and simulate custom movies combining producers, actors, special effects, and scandals. This backend API is built with FastAPI, SQLAlchemy, and SQLite, designed to serve a React frontend and showcase a full-stack architecture.
+# 🎬 Movie Game Backend (FastAPI + SQLite)
 
-✨ Features
-Create, retrieve, and manage movies with multiple actors and a producer
+This project is a simulation engine and backend API for managing a fictional movie production game. It is built using **FastAPI** and **SQLite**, demonstrating database relationships, random data generation, and RESTful interaction.
 
-Store and relate producers, actors, effects, and scandals
+---
 
-SQLite database with SQLAlchemy ORM models
+## 📽️ Demo Video
+[Watch the demo video here](#) *(Replace with your actual link)*  
+This video demonstrates core functionality including:
+- Random movie generation
+- Actor and producer queries
+- Live database interaction via FastAPI
 
-FastAPI REST endpoints with input validation via Pydantic schemas
+---
 
-CORS enabled for seamless frontend integration
+## 💾 Features
 
-Easily extensible to add more complex game logic
+- **SQLite database** with multiple related tables (`Movies`, `Actors`, `Producers`, `Scandals`, etc.)
+- **Random movie generator** that creates and populates full records
+- **Scandals and casting** assigned to movies randomly
+- **FastAPI** endpoints for:
+  - Creating a new random movie
+  - Viewing movie details
+  - Searching actors, producers, and movies
+- Full error handling for missing data or database issues
 
-🚀 Getting Started
-Prerequisites
-Python 3.8+
+---
 
-pip
+## 🧱 Database Schema Overview
 
-Installation & Running
-Clone the repository:
+- `Movies`  
+- `Actors`  
+- `Producers`  
+- `Genres`  
+- `Scandals`  
+- `Movie_Cast` (many-to-many relationship)  
+- `Movie_Scandal` (many-to-many relationship)
 
-bash
-Copy
-Edit
-git clone https://github.com/Couchtr26/movie_game.git
-cd movie_game/backend
-Create and activate a virtual environment (recommended):
+---
 
-bash
-Copy
-Edit
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
-Install dependencies:
+## 🚀 Run the Server
 
-bash
-Copy
-Edit
-pip install -r requirements.txt
-Run the API server:
+1. Install dependencies:
+    ```bash
+    pip install fastapi uvicorn
+    ```
 
-bash
-Copy
-Edit
-uvicorn main:app --reload
-Open your browser or API client and visit:
+2. Start the server:
+    ```bash
+    uvicorn main:app --reload
+    ```
 
-arduino
-Copy
-Edit
-http://localhost:8000
-Visit the interactive API docs at:
+3. Access the documentation at:
+    ```
+    http://127.0.0.1:8000/docs
+    ```
 
-bash
-Copy
-Edit
-http://localhost:8000/docs
-🔧 Project Structure
-main.py: FastAPI app entry point and route definitions
+---
 
-models.py: SQLAlchemy ORM models for movies, actors, producers
+## 🔧 Still in Progress
 
-schemas.py: Pydantic models for request validation and response serialization
+- `/movies/{id}/full` endpoint is under repair
+- More genre and budget logic to be added
+- UI integration coming soon
 
-crud.py: Database access functions encapsulating create/read operations
+---
 
-database.py: Database connection and session setup
+## 🙋 About
 
-🛠 Technologies Used
-FastAPI — High-performance Python web framework for APIs
+This project was built solo as part of a backend showcase. It demonstrates hands-on experience with API development, relational data modeling, and procedural content generation.
 
-SQLAlchemy — ORM for relational database mapping
-
-SQLite — Lightweight, file-based database for development/demo
-
-Pydantic — Data validation and parsing using Python type annotations
-
-📈 Future Improvements
-Add update and delete endpoints
-
-Implement authentication/authorization
-
-Expand game logic (e.g., scoring, player stats)
-
-Connect to a React or other frontend client
-
-Integrate Docker for easy deployment
-
-🤝 Contributing
-Contributions, suggestions, and bug reports are welcome! Feel free to fork the repo and open a pull request or issue.
 
 📄 License
 MIT License — free to use, modify, and distribute.
