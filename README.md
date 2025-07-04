@@ -9,6 +9,7 @@ https://youtu.be/nf5_B6xl-Bc
 This video demonstrates core functionality including:
 - Random movie generation
 - Actor and producer queries
+- ![Producer Query](./Screenshot_2025-07-03_180650.png)
 - Live database interaction via FastAPI
 
 ---
@@ -16,8 +17,9 @@ This video demonstrates core functionality including:
 ## 💾 Features
 
 - **SQLite database** with multiple related tables (`Movies`, `Actors`, `Producers`, `Scandals`, etc.)
+- ![Movie Query](./Screenshot_2025-07-03_180629.png)
 - **Random movie generator** that creates and populates full records
-- ![Creating a random movie via API](./Screenshot_2025-07-03_180650.png)
+- ![Creating a random movie via API](./Screenshot_2025-07-03_180607.png)
 - **Scandals and casting** assigned to movies randomly
 - **FastAPI** endpoints for:
   - Creating a new random movie
